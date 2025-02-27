@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Мухоловка</title>
     <style>
         /* Общий стиль */
@@ -199,8 +199,14 @@
 
         // Функция для перемещения мухи
         function moveFly(fly) {
-            const x = Math.random() * (window.innerWidth - 50);
-            const y = Math.random() * (window.innerHeight - 50);
+            const flyWidth = fly.offsetWidth;
+            const flyHeight = fly.offsetHeight;
+            const maxX = window.innerWidth - flyWidth;
+            const maxY = window.innerHeight - flyHeight;
+
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+
             fly.style.transform = `translate(${x}px, ${y}px)`;
         }
 
