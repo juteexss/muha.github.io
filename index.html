@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мухоловка</title>
     <style>
         /* Общий стиль */
@@ -207,7 +207,8 @@
             const x = Math.random() * maxX;
             const y = Math.random() * maxY;
 
-            fly.style.transform = `translate(${x}px, ${y}px)`;
+            fly.style.left = `${x}px`;
+            fly.style.top = `${y}px`;
         }
 
         // Функция для разблокировки новых покупок
