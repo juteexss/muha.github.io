@@ -177,6 +177,14 @@
 
                 // Позиционируем новую муху в случайное место
                 moveFly(newFly);
+
+                // Скрываем кнопку после покупки
+                if (value === 2) {
+                    fly2Item.style.display = 'none';
+                    autoIncomeItem.classList.add('visible'); // Показываем следующую покупку
+                } else if (value === 3) {
+                    fly3Item.style.display = 'none';
+                }
             } else {
                 alert("Недостаточно очков!");
             }
@@ -192,7 +200,8 @@
                         updateScore(1);
                     }, 1000);
                 }
-                autoIncomeItem.classList.remove('visible'); // Скрываем кнопку после покупки
+                autoIncomeItem.style.display = 'none'; // Скрываем кнопку после покупки
+                fly3Item.classList.add('visible'); // Показываем следующую покупку
             } else {
                 alert("Недостаточно очков!");
             }
