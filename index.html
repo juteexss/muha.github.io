@@ -3,154 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Дотерские бомжи</title>
+    <title>Мухоловка</title>
     <style>
-        /* CSS стили остаются неизменными */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #ffffff; /* Белый фон */
-            color: #000000; /* Черный текст */
+            background-color: #f0f0f0;
+            color: #333;
         }
-        /* ... */
-        /* CSS стили остаются неизменными */
-        
-        /* Стили для мухи */
-        #fly {
+
+        #counter {
             position: fixed;
-            width: 50px;
-            height: auto;
-            z-index: 9999;
-            transition: transform 0.3s ease; /* Добавляем плавный переход для перемещения */
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff3366;
         }
-        /* Стили для панели выбора мухи */
-        #fly-panel {
-            position: fixed;
-            bottom: 80px; /* Изменена высота панели */
-            right: 20px;
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-            padding: 10px;
-            display: none;
-            animation: slide-in 0.5s forwards;
-            z-index: 10000; /* Панель выбора мухи над мухой */
-        }
-        .skin-radio {
-            margin-right: 10px;
-            cursor: pointer;
-        }
-        /* Анимация для панели выбора мухи */
-        @keyframes slide-in {
-            from {
-                transform: translateY(100%); /* Изменено направление анимации */
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0); /* Изменено направление анимации */
-                opacity: 1;
-            }
-        }
-        /* Стили для кнопки "Мухи" */
-        #fly-btn {
+
+        #shop {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background-color: #ff3366; /* Цвет кнопки */
-            color: #ffffff; /* Цвет текста */
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .shop-item {
+            margin-bottom: 10px;
+        }
+
+        .shop-item button {
+            background-color: #ff3366;
+            color: #fff;
             border: none;
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            transition: background-color 0.3s; /* Плавное изменение цвета при наведении */
-            z-index: 9999;
+            transition: background-color 0.3s;
         }
-        #fly-btn:hover {
-            background-color: #ff0055; /* Измененный цвет кнопки при наведении */
+
+        .shop-item button:hover {
+            background-color: #ff0055;
         }
-        /* Стили для счетчика */
-        #counter {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            font-size: 24px;
-            font-weight: bold;
-            color: #ff3366; /* Цвет счетчика */
-            animation: pulse 1s infinite; /* Анимация мерцания */
-            z-index: 9999;
+
+        .fly {
+            position: absolute;
+            width: 50px;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.3s ease;
         }
-        /* Анимация для мерцания */
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.2);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-        /* CSS стили остаются неизменными */
     </style>
 </head>
 <body>
-    <!-- HTML код мухи остается неизменным -->
-    <!-- Муха -->
-    <img src="Insect-Background-PNG.png" alt="Муха" id="fly">
-    
-    <!-- Кнопка "Мухи" -->
-    <button id="fly-btn">Мухи</button>
+    <div id="counter">Очки: 0</div>
 
-    <!-- Панель выбора мухи -->
-    <div id="fly-panel">
-        <label class="skin-radio">
-            <input type="radio" name="skin" value="Insect-Background-PNG.png" checked>
-            Скин 1
-        </label>
-        <label class="skin-radio">
-            <input type="radio" name="skin" value="transparent-fly-23.png">
-            Скин 2
-        </label>
-        <label class="skin-radio">
-            <input type="radio" name="skin" value="Fly-Background-PNG.png">
-            Скин 3
-        </label>
+    <div id="shop">
+        <h3>Магазин</h3>
+        <div class="shop-item">
+            <p>Муха 2 (+2 очка) - 50 очков</p>
+            <button onclick="buyFly(2, 50)">Купить</button>
+        </div>
+        <div class="shop-item">
+            <p>Муха 3 (+3 очка) - 300 очков</p>
+            <button onclick="buyFly(3, 300)">Купить</button>
+        </div>
     </div>
 
-    <!-- Счетчик -->
-    <div id="counter">0</div>
+    <img src="Insect-Background-PNG.png" alt="Муха" class="fly" id="fly1">
 
-    <!-- JavaScript код остается неизменным -->
     <script>
-        var fly = document.getElementById('fly');
-        var flyBtn = document.getElementById('fly-btn');
-        var flyPanel = document.getElementById('fly-panel');
-        var skinRadios = document.querySelectorAll('.skin-radio input[name="skin"]');
-        var counter = document.getElementById('counter');
-        var count = 0;
+        let score = 0;
+        let flies = [{ id: "fly1", value: 1 }]; // Первая муха уже на экране
 
-        // Отображение/скрытие панели выбора мухи при нажатии на кнопку "Мухи"
-        flyBtn.addEventListener('click', function() {
-            flyPanel.style.display = flyPanel.style.display === 'none' ? 'block' : 'none';
-        });
+        const counter = document.getElementById('counter');
 
-        // При изменении выбранного скина мухи меняем ее в соответствии с выбором пользователя
-        skinRadios.forEach(function(radio) {
-            radio.addEventListener('change', function() {
-                fly.src = this.value;
-                flyPanel.style.display = 'none'; // Скрываем панель выбора мухи после выбора скина
-            });
-        });
+        // Функция для обновления счета
+        function updateScore(points) {
+            score += points;
+            counter.textContent = `Очки: ${score}`;
+        }
 
-        // Добавляем обработчик события для перемещения мухи при наведении на нее
-        fly.addEventListener('mouseover', function() {
-            var x = Math.random() * (window.innerWidth - 50); // Генерируем случайную позицию по горизонтали
-            var y = Math.random() * (window.innerHeight - 50); // Генерируем случайную позицию по вертикали
-            fly.style.transform = 'translate(' + x + 'px, ' + y + 'px)'; // Устанавливаем новую позицию мухи
-            count++;
-            counter.textContent = count; // Обновляем счетчик
+        // Функция для покупки мухи
+        function buyFly(value, cost) {
+            if (score >= cost) {
+                score -= cost;
+                counter.textContent = `Очки: ${score}`;
+                const newFly = document.createElement('img');
+                newFly.src = "Insect-Background-PNG.png"; // Используем ту же картинку для простоты
+                newFly.className = "fly";
+                newFly.id = `fly${flies.length + 1}`;
+                document.body.appendChild(newFly);
+                flies.push({ id: newFly.id, value: value });
+
+                // Добавляем обработчик для новой мухи
+                newFly.addEventListener('mouseover', () => {
+                    moveFly(newFly);
+                    updateScore(value);
+                });
+            } else {
+                alert("Недостаточно очков!");
+            }
+        }
+
+        // Функция для перемещения мухи
+        function moveFly(fly) {
+            const x = Math.random() * (window.innerWidth - 50);
+            const y = Math.random() * (window.innerHeight - 50);
+            fly.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        // Инициализация первой мухи
+        document.getElementById('fly1').addEventListener('mouseover', () => {
+            moveFly(document.getElementById('fly1'));
+            updateScore(1);
         });
     </script>
 </body>
