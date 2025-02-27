@@ -101,7 +101,7 @@
         .fly {
             position: absolute;
             cursor: pointer;
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            transition: all 0.5s ease; /* Плавное перемещение */
         }
 
         .fly:hover {
@@ -192,12 +192,13 @@
                         updateScore(1);
                     }, 1000);
                 }
+                autoIncomeItem.classList.remove('visible'); // Скрываем кнопку после покупки
             } else {
                 alert("Недостаточно очков!");
             }
         }
 
-        // Функция для перемещения мухи
+        // Функция для плавного перемещения мухи
         function moveFly(fly) {
             const flyWidth = fly.offsetWidth;
             const flyHeight = fly.offsetHeight;
@@ -207,6 +208,7 @@
             const x = Math.random() * maxX;
             const y = Math.random() * maxY;
 
+            fly.style.transition = "all 0.5s ease"; // Плавное перемещение
             fly.style.left = `${x}px`;
             fly.style.top = `${y}px`;
         }
